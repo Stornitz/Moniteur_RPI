@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RaspberryPi</title>
+		<script src="jquery.js"></script>
+		<link rel="stylesheet" href="style.css"/>
+		<style></style>
+		<script>
+			// Premier chargement
+			$.get("api/load.php", {partie: "header"}, function(data){
+				$("header").html(data);
+			});
+
+			$.get("api/load.php", {partie: "meteo"}, function(data){
+				$("#meteo").html(data);
+			});
+			
+			$.get("api/load.php", {partie: "internet"}, function(data){
+				$("#internet").html(data);
+			});
+			
+			// Intervals pour futurs chargements
+			setInterval(function(){ // Header : Heure / Date / Débit , rafraichissement toutes les 30 secondes
+				$.get("api/load.php", {partie: "header"}, function(data){
+					$("header").html(data);
+				});
+			}, 30000);
+
+			setInterval(function(){ // Internet : Wifi / Appareils connectés, rafraichissement toutes les 15 secondes
+				$.get("api/load.php", {partie: "internet"}, function(data){
+					$("#internet").html(data);
+				});
+			}, 15000);
+			
+			setInterval(function(){ // Meteo, rafraichissement toutes les 15 minutes
+				$.get("api/load.php", {partie: "meteo"}, function(data){
+					$("#meteo").html(data);
+				});
+			}, 900000);
+			
+			// Faire clignoter les deux points de l'heure (très important ! :D)
+			function FaireClignoter (){ 
+				$("#colon").fadeTo("slow" , 0).delay(300).fadeTo("slow" , 1); 
+			} 
+			setInterval('FaireClignoter()',2200);
+		</script>
+	</head>
+	<body>
+		<header>
+		</header>
+		<section id="meteo">
+		</section>
+		<section id="internet">
+		</section>
+	</body>
+</html>
