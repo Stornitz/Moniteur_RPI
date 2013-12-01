@@ -1,0 +1,52 @@
+/* --- Meteo --- */
+.arrow
+ {  
+    position: relative;  
+    top: 1px;  
+    display: inline-block;  
+    width: 11px;  
+    height: 11px;  
+    margin-right: 0px;  
+    margin-left: 5px;  
+    background: #6a8b9a;  
+    background: -moz-linear-gradient(90deg,#225872,#225872,#6a8b9a,#6a8b9a);  
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #6a8b9a), color-stop(0.50, #6a8b9a), color-stop(0.51, #225872), color-stop(1.00, #225872));  
+    background-repeat: no-repeat;  
+}  
+.arrow span
+ {  
+    position: absolute;  
+    width: 8px;  
+    height: 9px;  
+    background: #fff;
+    -webkit-transform: rotate(45deg);  
+}  
+.arrow .mask1 { top: 1px; left: -5px; }  
+.arrow .mask2 { top: -5px; right: -4px; background: #fff; }  
+.arrow .mask3 { right: -4px; bottom: -5px; height: 10px; background: #fff; }  
+
+.arrow {-webkit-transition: all 0.7s;}
+
+/* --- Internet --- */
+.status
+{
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	background-color: black;
+}
+.online{background-color: green;}
+.offline{background-color: red;}
+
+.wifi
+{
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+	background-color: black;
+	box-shadow: -1px 1.5px 5px 1px black;
+}
+.on{background-color: green;}
+.off{background-color: red;}
