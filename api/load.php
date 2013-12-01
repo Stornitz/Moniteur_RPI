@@ -24,6 +24,22 @@ function FormatHeure($heure)
 	return $heure = $heure[0]+1 .":".$heure[1];
 }
 
+function DureeDuJour($lever, $coucher)
+{
+	$Duree["lever"] = explode(":", $lever);
+	$Duree["lever"] = $Duree["lever"][0]*60+$Duree["lever"][1];
+	
+	$Duree["coucher"] = explode(":", $coucher);
+	$Duree["coucher"] = $Duree["coucher"][0]*60+$Duree["coucher"][1];
+	
+	$DureeDuJour = $Duree["coucher"]-$Duree["lever"];
+	
+	$heures = (int)($DureeDuJour/60);
+	$minutes = $DureeDuJour%60;
+		
+	return $heures."h".$minutes;
+}
+
 function FormatUptime($uptime)
 {
 	$minutes = (int)($uptime/60);
@@ -60,8 +76,8 @@ if(isset($_GET["partie"]))
 				<span id="minutes"><?php echo date("i"); ?></span>
 			</div>
 			<div id="debit">
-				<div><?php echo $debit; ?></div>
-				<div>Débit Internet</div>
+				<span id="titre">Débit Internet</span>
+				<span><?php echo $debit; ?></span>
 			</div>
 <?php
 			break;
@@ -69,33 +85,34 @@ if(isset($_GET["partie"]))
 		case "meteo":
 		{
 			$weather = getMeteo($ville.",".$pays);
+			$lever = FormatHeure($weather["soleil"]["leve"]);
+			$coucher = FormatHeure($weather["soleil"]["couche"]);
 ?>
 			<h1>Météo</h1>
 			<img src="<?php echo $weather["img"]; ?>" alt="temps"/>
-			<div id="infos_meteo">
-				<div id="location">
-					<span id="ville"><?php echo $weather["ville"]; ?></span>
-					<span id="pays"><?php echo $weather["pays"]; ?></span>
-				</div>
-				<div id="temps"><?php echo $weather["temps"]; ?></div>
-				<div id="temperature">
-					<span>Température</span>
-					<span id="degre"><?php echo $weather["temperature"]; ?>°C</span>
-				</div>
-				<div id="vent">
-					<?php echo "Vent à ".$weather["vent"]["vitesse"]; ?>
-					<span style="-webkit-transform: rotate(<?php echo $weather["vent"]["degre"]-90; ?>deg);" class="arrow">  
-						<span class="mask1"></span>  
-						<span class="mask2"></span>  
-						<span class="mask3"></span>  
-					</span>
-				</div>
-				<div id="soleil">
-					Soleil de <?php echo FormatHeure($weather["soleil"]["leve"]); ?> à <?php echo FormatHeure($weather["soleil"]["couche"]); ?>
-				</div>
-				<div id="derniere_modif">
-					Dernière modification le <?php echo FormatDate($weather["last_update"]); ?>
-				</div>
+			<div id="location">
+				<span id="pays"><?php echo $weather["pays"]; ?></span>
+				<span id="ville"><?php echo $weather["ville"]; ?></span>
+			</div>
+			<div id="temps"><?php echo $weather["temps"]; ?></div>
+			<div id="temperature">
+				<span>Température</span>
+				<span id="degre"><?php echo $weather["temperature"]; ?>°C</span>
+			</div>
+			<div id="vent">
+				<?php echo "Vent à ".$weather["vent"]["vitesse"]; ?>
+				<span style="-webkit-transform: rotate(<?php echo $weather["vent"]["degre"]-90; ?>deg);" class="arrow">  
+					<span class="mask1"></span>  
+					<span class="mask2"></span>  
+					<span class="mask3"></span>  
+				</span>
+			</div>
+			<div id="soleil">
+				<div id="lever_coucher">Soleil de <?php echo $lever; ?> à <?php echo $coucher; ?></div>
+				<div id="duree">Durée du jour : <?php echo DureeDuJour($lever, $coucher); ?></div>
+			</div>
+			<div id="derniere_maj">
+				Dernière mise à jour le <?php echo FormatDate($weather["last_update"]); ?>
 			</div>
 <?php
 			break;
